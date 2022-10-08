@@ -1,7 +1,7 @@
 <br />
 
 # Projeto Integrador II - Univesp - 2022
-Projeto acadêmico como disciplina do 5° período de 2022.
+Projeto acadêmico como disciplina curricular do 5° período de 2022.
 
 <br />
 
