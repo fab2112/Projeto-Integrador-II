@@ -1,0 +1,28 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+{% block title %}Log In{% endblock title %}
+{% block content %}
+<br />
+<br />
+<br />
+<br />
+
+<div class="card border-info text-center">
+  <div class="card-header">
+      {% load socialaccount %}
+      {% load static %}
+      Entrar no Site &nbsp;&nbsp;
+      <a href="{% provider_login_url 'google' %}" type="button" class="btn btn-outline-dark" >
+          <img src="{% static 'imagens/Google_img.png' %}" width="25"/>&nbsp; Login Google</a>
+  </div>
+    <div class="card-body">
+        <p class="card-text">
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success ml- " type="submit">Entrar</button>
+        </form>
+  </div>
+</div>
+
+{% endblock content %}

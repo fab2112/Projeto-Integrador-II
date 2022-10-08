@@ -1,0 +1,128 @@
+<!-- template/registro_listagem.html -->
+{% extends 'base.html' %}
+{% block title %}Notícias{% endblock title %}
+{% block content %}
+<br />
+
+<div class="jumbotron"  style="background-color:#483D8B;color:white;height: 10px;" >
+    <h2>
+        <p  style="position: relative; margin-top: -20px;">Doações Realizadas</p>
+    </h2>
+</div>
+{% for registro in object_list %}
+    {% for recebido in recebido_list %}
+        {% if user == registro.doador and registro.id == recebido.recebido_id%}
+            <div class="card border-info">
+            <div class="card">
+                <div class="card-header" style="background-color:#E6E6FA;color:black">
+                    <a href="{{ registro.image.url}}" target="_blank">
+                            <img src="{{ registro.image.url}}" style="max-height:80px"></a> &nbsp;&nbsp;
+                    <span class="font-weight-bold">
+                        <span style="color:#4169E1;" > {{ registro.doacao.upper }} &nbsp;&nbsp;
+                        &nbsp;</span>
+                        </span>
+                    <span class="text-muted"> &nbsp;&nbsp;&nbsp;&nbsp; {{registro.data_1 }}
+                    </span>
+                    {% if registro.status is False %}
+                        <span class="font-weight-bold"> &nbsp;&nbsp;&nbsp;&nbsp; Status: <i style="color:green;" >Finalizado</i>
+                        </span>
+                        <span class="font-weight-bold"> &nbsp;&nbsp;&nbsp;&nbsp; Doado para:
+                            <i style="color:green;" >{{recebido.receptor|lower|capfirst}}</i>
+                        </span>
+                        <span class="font-weight-bold"> &nbsp;&nbsp;&nbsp;&nbsp; Contato:
+                            <i style="color:green;" >{{recebido.contato_2}}</i>
+                        </span>
+                    {% endif %}
+                </div>
+                <!--<div class="card-header" style="background-color:white;color:black">
+                    <span class="font-weight-bold">Endereço de Retirada: &nbsp;
+                        <span style="color:#4169E1;" >{{ registro.endereco }} &nbsp;&nbsp;</span>Contato:&nbsp;
+                        <span style="color:#4169E1;" >{{ registro.contato }}</span>&nbsp;&nbsp;&nbsp;
+                        {% if registro.obs %}
+                            Obs.:&nbsp;
+                            <span style="color:#808080;" >{{ registro.obs }}</span>
+                        {% endif %}
+                    </span>
+                </div>-->
+            </div>
+            <div class="card-body">
+                <font size="3">
+                    <a href="{% url 'registro_delete' registro.pk %}">Deletar</a>
+                    {% if registro.status is False %}
+                        | <a href="{% url 'registro_comment' registro.pk %}">Menssagem</a>
+                    {% endif %}
+                </font>
+            </div>
+            <div class="card-footer">
+            {% for comentario in registro.comentarios.all %}
+                <p>{{ comentario }} &nbsp;&nbsp;
+                <span class="text-muted">{{ comentario.autor|lower|capfirst }} &nbsp; {{ comentario.data_2 }} &nbsp;
+                    &nbsp;</span>
+                {% if user == comentario.autor %}
+                    <a href="{% url 'comment_delete' comentario.pk %}">Deletar</a>
+                {% endif %}
+                </p>
+            {% endfor %}
+            </div>
+        </div>
+    <br />
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+<div class="jumbotron"  style="background-color:#483D8B;color:white;height: 10px;" >
+    <h2>
+        <p  style="position: relative; margin-top: -20px;">Doações Recebidas</p>
+    </h2>
+</div>
+
+{% for registro in object_list %}
+    {% if registro.status is False and user != registro.doador %}
+        {% for recebido in recebido_list %}
+            {% if user == recebido.receptor and registro.id == recebido.recebido_id%}
+                <div class="card border-info">
+                    <div class="card">
+                        <div class="card-header" style="background-color:#E6E6FA;color:black">
+                            <a href="{{ registro.image.url}}" target="_blank">
+                            <img src="{{ registro.image.url}}" style="max-height:80px"></a> &nbsp;&nbsp;
+                            <span class="font-weight-bold"><span style="color:#4169E1;" > {{ registro.doacao.upper }} &nbsp;&nbsp;
+                            &nbsp;      </span>
+                                </span>
+                            <span class="text-muted"> &nbsp;&nbsp;&nbsp;&nbsp; {{ registro.doador|lower|capfirst }} -
+                                {{registro.data_1 }}
+                            </span>
+                        </div>
+                        <div class="card-header" style="background-color:white;color:black">
+                            <span class="font-weight-bold">Endereço de Retirada: &nbsp;
+                                <span style="color:green;" >{{ registro.endereco }} &nbsp;&nbsp;</span>Contato doador:&nbsp;
+                                <span style="color:green;" >{{ registro.contato }}</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!--{{ registro.obs }}
+                        <br />-->
+                        <!-- Changes start here! -->
+                        <font size="3">
+                            <!--<a href="{% url 'update_status' registro.pk %}">Cancelar</a> |-->
+                            <a href="{% url 'registro_comment' registro.pk %}">Menssagem</a>
+                        </font>
+                    </div>
+                    <div class="card-footer">
+                    {% for comentario in registro.comentarios.all %}
+                        <p>{{ comentario }} &nbsp;&nbsp;
+                        <span class="text-muted">{{ comentario.autor|lower|capfirst }} &nbsp; {{ comentario.data_2 }} &nbsp;
+                        &nbsp;      </span>
+                        {% if user == comentario.autor %}
+                            <a href="{% url 'comment_delete' comentario.pk %}">Deletar</a>
+                        {% endif %}
+                        </p>
+                    {% endfor %}
+                    </div>
+                </div>
+                <br />
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+{% endblock content %}

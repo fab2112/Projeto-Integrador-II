@@ -1,0 +1,23 @@
+<!-- templates/registro_delecao.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="card border-info text-center">
+    <div class="card-header">
+        Remover doação registrada
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+        <form action="" method="post">{% csrf_token %}
+            <p>Tem certeza que deseja desistir da doação: "{{ registro.doacao }}"?</p>
+            <button class="btn btn-danger ml- " type="submit">Confirmar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

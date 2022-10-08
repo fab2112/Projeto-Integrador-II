@@ -1,0 +1,60 @@
+<!-- template/registro_listagem.html -->
+{% extends 'base.html' %}
+{% block title %}Notícias{% endblock title %}
+{% block content %}
+<br />
+
+<div class="jumbotron"  style="background-color:#483D8B;color:white;height: 10px;" >
+    <h2>
+    <p  style="position: relative; margin-top: -20px;">Doações Ativas</p>
+    </h2>
+    <p class="lead">
+        <h5>
+            <a class="btn btn-secondary" style="background-color:#1E90FF" href="{% url 'registro_new' %}"
+               role="button">Desapegar</a>
+        </h5>
+    </p>
+</div>
+<br />
+{% for registro in object_list %}
+    {% if registro.status %}  <!-- True=>Doação Ativa (Default) / False=>Item Foi Doado-->
+        <div class="card border-info">
+            <div class="card">
+                <div class="card-header" style="background-color:#E6E6FA;color:black">
+                    <a href="{{ registro.image.url}}" target="_blank">
+                        <img src="{{ registro.image.url}}" style="max-height:80px"></a> &nbsp;&nbsp;
+                    Item:
+                    <span class="font-weight-bold" style="color:#4169E1;" > {{ registro.doacao.upper }} &nbsp;&nbsp;
+                        &nbsp;
+                    </span>
+                    Doador:
+                    <span class="text-muted"> {{ registro.doador|lower|capfirst }} -
+                            {{registro.data_1 }}
+                    </span> &nbsp;&nbsp;
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="card-header" style="background-color:white;color:black">
+                        <span>Endereço de Retirada: &nbsp;
+                            <span style="color:#4169E1" >{{ registro.endereco }} &nbsp;&nbsp;</span>
+                                Contato:&nbsp;
+                            <span style="color:#4169E1;" >{{ registro.contato }}</span><br />
+                        </span>
+                    </div>
+                {% endif%}
+            </div>
+            {% if registro.doador != user %}
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                <a href="{% url 'registro_recebido' registro.pk %}" type="button"
+                class="btn btn-sm btn-info" >Tenho Interesse</a>
+                </h5>
+            {% else %}
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                <a href="{% url 'registro_delete' registro.pk %}" type="button"
+                class="btn btn-sm btn-danger" >Cancelar</a>
+                </h5>
+            {% endif %}
+        </div>
+    <br />
+    {% endif %}
+{% endfor %}
+{% endblock content %}

@@ -1,0 +1,23 @@
+<!-- templates/registro_comentario.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="card border-info text-center">
+    <div class="card-header" >
+        Enviar menssagem
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-info ml- " type="submit">Comfirmar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

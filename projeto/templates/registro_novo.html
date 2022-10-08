@@ -1,0 +1,22 @@
+<!-- templates/registro_novo.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="card border-info text-center">
+    <div class="card-header">
+        Cadastrar uma nova doação
+    </div>
+    <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success ml- " type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
